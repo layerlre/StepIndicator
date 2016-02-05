@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">StepIndicator</string>
+    <string name="action_swap">swap</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_custom_step">CustomStepActivity</string>
+</resources>

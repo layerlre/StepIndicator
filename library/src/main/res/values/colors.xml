@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="background_default">#A5D6A7</color>
+    <color name="step_default">#4CAF50</color>
+    <color name="current_step_default">#ffffff</color>
+    <color name="text_default">#000000</color>
+    <color name="secondary_text_default">#ffffff</color>
+
+</resources>

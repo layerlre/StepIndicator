@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StepIndicator">
+        <attr name="siStepCount" format="integer" />
+        <attr name="siRadius" format="dimension" />
+        <attr name="siStrokeWidth" format="dimension" />
+        <attr name="siStepColor" format="color" />
+        <attr name="siCurrentStepColor" format="color" />
+        <attr name="siBackgroundColor" format="color" />
+        <attr name="siTextColor" format="color" />
+        <attr name="siSecondaryTextColor" format="color" />
+    </declare-styleable>
+</resources>
