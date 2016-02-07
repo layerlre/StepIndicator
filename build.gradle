@@ -6,11 +6,14 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.0'
-
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
+
+apply plugin: 'com.jfrog.bintray'
 
 allprojects {
     repositories {
@@ -21,3 +24,22 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+bintray {
+    user = 'layerlre'
+    key = 'xxxxxxxxxxxxxxx'
+    pkg {
+        repo = 'maven'
+        name = 'step-indicator'
+        userOrg = user
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/layerlre/StepIndicator.git'
+        version {
+            name = '0.9.0'
+            desc = 'Step Indicator 0.9.0'
+            vcsTag = '0.9.0'
+            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+        }
+    }
+}
+
