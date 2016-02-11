@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        StepIndicator stepIndicator = (StepIndicator)findViewById(R.id.step_indicator);
+        StepIndicator stepIndicator = (StepIndicator) findViewById(R.id.step_indicator);
         stepIndicator.setupWithViewPager(mViewPager);
 
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_swap) {
-            startActivity(new Intent(MainActivity.this,CustomStepActivity.class));
+            startActivity(new Intent(MainActivity.this, CustomStepActivity.class));
             finish();
             return true;
         }
@@ -126,22 +126,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 4;
+            return 6;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "SECTION 1";
-                case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
-                case 3:
-                    return "SECTION 4";
-            }
-            return null;
+            return "SECTION "+(position+1);
         }
     }
 }

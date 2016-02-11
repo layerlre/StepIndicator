@@ -35,6 +35,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -80,6 +81,7 @@ public class StepIndicator extends View {
     private float[] hsvProgress = new float[3];
 
     private boolean withViewpager;
+    private static final String TAG = "StepIndicator";
 
     public StepIndicator(Context context) {
         super(context);
@@ -178,9 +180,7 @@ public class StepIndicator extends View {
 
     public void setCurrentStepPosition(int currentStepPosition) {
         this.currentStepPosition = currentStepPosition;
-        if (pagerScrollState == 0) {
             invalidate();
-        }
     }
 
     public int getRadius() {
@@ -275,15 +275,18 @@ public class StepIndicator extends View {
                 //draw current step
                 if (offsetPixel == 0 || pagerScrollState == 0) {
                     //set stroke default
+                    Log.w(TAG, "onDraw: 1 | currentStepPosition :"+ currentStepPosition);
                     paint.setColor(currentColor);
                     pStoke.setStrokeWidth(Math.round(strokeWidth));
                     pStoke.setAlpha(255);
                 } else if (offsetPixel < 0) {
+                    Log.w(TAG, "onDraw: 2");
                     pStoke.setStrokeWidth(Math.round(strokeWidth * offset));
                     pStoke.setAlpha(Math.round(offset * 255f));
                     paint.setColor(getColorToBG(offset));
                 } else {
                     //set stroke transition
+                    Log.w(TAG, "onDraw: 3");
                     paint.setColor(getColorToProgess(offset));
                     pStoke.setStrokeWidth(strokeWidth - Math.round(strokeWidth * offset));
                     pStoke.setAlpha(255 - Math.round(offset * 255f));
@@ -338,6 +341,8 @@ public class StepIndicator extends View {
         offsetPixel = Math.round(stepDistance * offset);
         if (currentStepPosition > position) {
             offsetPixel = offsetPixel - stepDistance;
+        }else {
+            currentStepPosition = position;
         }
 
         invalidate();
@@ -401,18 +406,23 @@ public class StepIndicator extends View {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//            Log.d(TAG, "onPageScrolled() called with: " + "position = [" + position + "], getCurrentStepPosition = [" + stepIndicator.getCurrentStepPosition() + "]");
+//            Log.d(TAG, "onPageScrolled() called with: " + "position = [" + position + "],getCurrentStepPosition = [" + stepIndicator.getCurrentStepPosition() + "] positionOffset = [" + positionOffset + "], positionOffsetPixels = [" + positionOffsetPixels + "]");
             stepIndicator.setOffset(positionOffset, position);
         }
 
         @Override
         public void onPageSelected(int position) {
+//            Log.w(TAG, "onPageSelected() called with: " + "position = [" + position + "]");
             stepIndicator.setCurrentStepPosition(position);
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
+//            Log.i(TAG, "onPageScrollStateChanged() called with: " + "state = [" + state + "]");
             stepIndicator.setPagerScrollState(state);
         }
+
     }
 
     public static class ViewPagerOnSelectedListener implements OnClickListener {
