@@ -27,7 +27,7 @@ task clean(type: Delete) {
 
 bintray {
     user = 'layerlre'
-    key = 'xxxxxxxxxxxxxxx'
+    key = 'xxxxxxxxxxxxxxxxxxxxxxxxx'
     pkg {
         repo = 'maven'
         name = 'step-indicator'
@@ -35,9 +35,9 @@ bintray {
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/layerlre/StepIndicator.git'
         version {
-            name = '0.9.0'
-            desc = 'Step Indicator 0.9.0'
-            vcsTag = '0.9.0'
+            name = '0.9.1'
+            desc = 'Step Indicator 0.9.1'
+            vcsTag = '0.9.1'
             attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
         }
     }

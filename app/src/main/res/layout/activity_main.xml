@@ -39,8 +39,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            app:siBackgroundColor="#aaa4a4"
-            app:siStepColor="@color/colorAccent"
+            app:siBackgroundColor="@color/background_default"
+            app:siStepColor="@color/step_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
