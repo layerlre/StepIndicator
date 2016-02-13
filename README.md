@@ -1,3 +1,4 @@
+[![Build Status](https://api.travis-ci.org/layerlre/StepIndicator.svg?branch=master)](https://api.travis-ci.org/layerlre/StepIndicator)
 # Android StepIndicator
 
 Interactive step paging indicator widget, compatible with the ViewPager
