@@ -1,0 +1,8 @@
+machine:
+  java:
+    version: oraclejdk8
+  environment:
+    JAVA_OPTS: "-Xms518m -Xmx2048m"
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository,extra-android-support"
