@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.org/layerlre/StepIndicator.svg?branch=master)](https://api.travis-ci.org/layerlre/StepIndicator) [![Methods Count](https://img.shields.io/badge/Methods and size-110 | 24 KB-e91e63.svg)](http://www.methodscount.com/?lib=com.layer-net%3Astep-indicator%3A0.9.1%2B)
+[![Build Status](https://api.travis-ci.org/layerlre/StepIndicator.svg?branch=master)](https://api.travis-ci.org/layerlre/StepIndicator) [![Methods Count](https://img.shields.io/badge/Methods and size-110 | 24 KB-e91e63.svg)](http://www.methodscount.com/?lib=com.layer-net%3Astep-indicator%3A1.0.0) [![Download](https://api.bintray.com/packages/layerlre/maven/step-indicator/images/download.svg)](https://bintray.com/layerlre/maven/step-indicator/_latestVersion)
 # Android StepIndicator
 
 Interactive step paging indicator widget, compatible with the ViewPager
@@ -56,13 +56,13 @@ Download via Maven
         <dependency>
             <groupId>com.layer-net</groupId>
             <artifactId>step-indicator</artifactId>
-            <version>0.9.1</version>
+            <version>1.0.0</version>
             <type>pom</type>
         </dependency>
 
 or Gradle:
 
-    compile 'com.layer-net:step-indicator:0.9.1'
+    compile 'com.layer-net:step-indicator:1.0.0'
 
 
 # License
