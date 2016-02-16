@@ -25,9 +25,12 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 bintray {
-    user = 'layerlre'
-    key = 'xxxxxxxxxxxxxxxxxxxxxxxxx'
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
     pkg {
         repo = 'maven'
         name = 'step-indicator'
@@ -35,9 +38,9 @@ bintray {
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/layerlre/StepIndicator.git'
         version {
-            name = '0.9.1'
-            desc = 'Step Indicator 0.9.1'
-            vcsTag = '0.9.1'
+            name = '1.0.0'
+            desc = 'Step Indicator 1.0.0'
+            vcsTag = '1.0.0'
             attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
         }
     }
