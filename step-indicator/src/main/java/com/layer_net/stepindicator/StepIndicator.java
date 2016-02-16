@@ -38,9 +38,6 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * Created by layer on 16/11/2558.
- */
 public class StepIndicator extends View {
 
     private static final int DEFAULT_STEP_RADIUS = 16;   //DP
@@ -80,7 +77,6 @@ public class StepIndicator extends View {
     private float[] hsvProgress = new float[3];
 
     private boolean withViewpager;
-    private static final String TAG = "StepIndicator";
 
     public StepIndicator(Context context) {
         super(context);
@@ -131,8 +127,8 @@ public class StepIndicator extends View {
         pText.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         pText.setTextAlign(Paint.Align.CENTER);
         pText.setFlags(Paint.ANTI_ALIAS_FLAG);
-        setMinimumHeight(radius * 3);   // TODO: 12/12/2558
-        Color.colorToHSV(currentColor, hsvCurrent);   // from white
+        setMinimumHeight(radius * 3);
+        Color.colorToHSV(currentColor, hsvCurrent);
         Color.colorToHSV(backgroundColor, hsvBG);
         Color.colorToHSV(stepColor, hsvProgress);
         invalidate();
@@ -509,7 +505,6 @@ public class StepIndicator extends View {
             dest.writeInt(secondaryTextColor);
         }
 
-        @SuppressWarnings("UnusedDeclaration")
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
             @Override
             public SavedState createFromParcel(Parcel in) {
@@ -522,6 +517,5 @@ public class StepIndicator extends View {
             }
         };
     }
-
 
 }

@@ -1,5 +1,5 @@
-group = 'com.layer_net'
-version = '0.9.1'
+group = 'com.layer-net'
+version = '1.0.0'
 
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
@@ -18,10 +18,10 @@ ext {
     siteUrl = 'https://github.com/layerlre/StepIndicator'
     gitUrl = 'https://github.com/layerlre/StepIndicator.git'
 
-    libraryVersion = '0.9.1'
+    libraryVersion = '1.0.0'
 
     developerId = 'layerlre'
-    developerName = 'Sutachad Wichai'
+    developerName = 'Suthachad Wichai'
     developerEmail = 'layerlre@gmail.com'
 
     licenseName = 'The Apache Software License, Version 2.0'
@@ -48,8 +48,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-//    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
 }
 
