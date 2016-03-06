@@ -80,3 +80,10 @@ or Gradle:
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+## Welcome to Fork.
+
+For contributor, check `TODO` list.
+
+1. Develop on **your branch** start from lasted commit on **[master](https://github.com/layerlre/StepIndicator)** branch.
+2. Create pull request to **[dev](https://github.com/layerlre/StepIndicator/tree/dev)** branch.
