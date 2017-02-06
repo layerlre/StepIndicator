@@ -278,7 +278,7 @@ public class StepIndicator extends View {
                     paint.setColor(getColorToBG(offset));
                 } else {
                     //set stroke transition
-                    paint.setColor(getColorToProgess(offset));
+                    paint.setColor(getColorToProgress(offset));
                     pStoke.setStrokeWidth(strokeWidth - Math.round(strokeWidth * offset));
                     pStoke.setAlpha(255 - Math.round(offset * 255f));
                 }
@@ -318,7 +318,7 @@ public class StepIndicator extends View {
         return Color.HSVToColor(hsv);
     }
 
-    private int getColorToProgess(float offset) {
+    private int getColorToProgress(float offset) {
         offset = Math.abs(offset);
         float[] hsv = new float[3];
         hsv[0] = hsvCurrent[0] + (hsvProgress[0] - hsvCurrent[0]) * offset;
