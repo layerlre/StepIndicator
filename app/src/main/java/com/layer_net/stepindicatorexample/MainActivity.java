@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         StepIndicator stepIndicator = (StepIndicator) findViewById(R.id.step_indicator);
         stepIndicator.setupWithViewPager(mViewPager);
 
+        // Enable | Disable click on step number
+        stepIndicator.setClickable(true);
+
 
     }
 
@@ -112,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -125,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 6 total pages.
             return 6;
         }
 
