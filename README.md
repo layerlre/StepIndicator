@@ -10,7 +10,7 @@ Interactive step paging indicator widget, compatible with the ViewPager
   1. Include one of the widgets in your view. This should usually be placed
      adjacent to the `ViewPager` it represents.
 
-        <com.layer_net.stepindicator.StepIndicator
+          <com.layer_net.stepindicator.StepIndicator
             android:id="@+id/step_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
