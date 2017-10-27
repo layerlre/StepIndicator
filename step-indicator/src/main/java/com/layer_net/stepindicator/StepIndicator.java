@@ -65,6 +65,7 @@ public class StepIndicator extends View {
     private int stepDistance;
     private float offset;
     private int offsetPixel;
+    private int lineHeight;
     private int pagerScrollState;
 
     private Paint paint;
@@ -120,7 +121,7 @@ public class StepIndicator extends View {
         pText = new Paint();
         paint.setColor(stepColor);
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        paint.setStrokeWidth(radius * 80 / 100);
+        paint.setStrokeWidth(lineHeight);
         pStoke.setColor(stepColor);
         pStoke.setStrokeWidth(strokeWidth);
         pStoke.setStyle(Paint.Style.STROKE);
@@ -152,6 +153,7 @@ public class StepIndicator extends View {
             backgroundColor = attr.getColor(R.styleable.StepIndicator_siBackgroundColor, ContextCompat.getColor(context, DEFAULT_BACKGROUND_COLOR));
             textColor = attr.getColor(R.styleable.StepIndicator_siTextColor, ContextCompat.getColor(context, DEFAULT_TEXT_COLOR));
             secondaryTextColor = attr.getColor(R.styleable.StepIndicator_siSecondaryTextColor, ContextCompat.getColor(context, DEFAULT_SECONDARY_TEXT_COLOR));
+            lineHeight = (int) attr.getDimension(R.styleable.StepIndicator_siLineHeight, radius * 80 / 100);
         } finally {
             attr.recycle();
         }

@@ -9,5 +9,6 @@
         <attr name="siBackgroundColor" format="color" />
         <attr name="siTextColor" format="color" />
         <attr name="siSecondaryTextColor" format="color" />
+        <attr name="siLineHeight" format="dimension" />
     </declare-styleable>
 </resources>
