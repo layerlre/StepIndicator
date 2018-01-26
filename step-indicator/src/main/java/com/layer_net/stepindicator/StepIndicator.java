@@ -76,7 +76,11 @@ public class StepIndicator extends View {
     private float[] hsvBG = new float[3];
     private float[] hsvProgress = new float[3];
 
+    private boolean clickable = true;
     private boolean withViewpager;
+    private ViewPagerOnChangeListener viewPagerChangeListener;
+    private boolean disablePageChange;
+    private int strokeWidthNow;
 
     public StepIndicator(Context context) {
         super(context);
@@ -143,6 +147,7 @@ public class StepIndicator extends View {
         try {
             radius = (int) attr.getDimension(R.styleable.StepIndicator_siRadius, dp2px(DEFAULT_STEP_RADIUS));
             strokeWidth = (int) attr.getDimension(R.styleable.StepIndicator_siStrokeWidth, dp2px(DEFAULT_STOKE_WIDTH));
+            strokeWidthNow = strokeWidth;
             stepsCount = attr.getInt(R.styleable.StepIndicator_siStepCount, DEFAULT_STEP_COUNT);
             stepColor = attr.getColor(R.styleable.StepIndicator_siStepColor, ContextCompat.getColor(context, DEFAULT_STEP_COLOR));
             currentColor = attr.getColor(R.styleable.StepIndicator_siCurrentStepColor, ContextCompat.getColor(context, DEFAULT_CURRENT_STEP_COLOR));
@@ -175,7 +180,17 @@ public class StepIndicator extends View {
 
     public void setCurrentStepPosition(int currentStepPosition) {
         this.currentStepPosition = currentStepPosition;
-            invalidate();
+        invalidate();
+    }
+
+    @Override
+    public boolean isClickable() {
+        return clickable;
+    }
+
+    @Override
+    public void setClickable(boolean clickable) {
+        this.clickable = clickable;
     }
 
     public int getRadius() {
@@ -191,15 +206,29 @@ public class StepIndicator extends View {
         if (adapter == null) {
             throw new IllegalArgumentException("ViewPager does not have a PagerAdapter set");
         }
+        if (viewPagerChangeListener == null) {
+            viewPagerChangeListener = new ViewPagerOnChangeListener(this);
+        }
         withViewpager = true;
         // First we'll add Steps.
         setStepsCount(adapter.getCount());
 
         // Now we'll add our page change listener to the ViewPager
-        viewPager.addOnPageChangeListener(new ViewPagerOnChangeListener(this));
+        viewPager.addOnPageChangeListener(viewPagerChangeListener);
 
         // Now we'll add a selected listener to set ViewPager's currentStepPosition item
         setOnClickListener(new ViewPagerOnSelectedListener(viewPager));
+
+        viewPager.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+                    ((ViewPager) v).addOnPageChangeListener(viewPagerChangeListener);
+                    disablePageChange = false;
+                }
+                return false;
+            }
+        });
 
         // Make sure we reflect the currently set ViewPager item
         if (adapter.getCount() > 0) {
@@ -252,6 +281,9 @@ public class StepIndicator extends View {
 
         /**draw Circle */
         pointX = startX;
+        int cY = 0;
+        int cR = 0;
+        int pointX2 = 0;
         for (int i = 0; i < stepsCount; i++) {
             if (i < currentStepPosition) {
                 //draw previous step
@@ -270,7 +302,7 @@ public class StepIndicator extends View {
                 if (offsetPixel == 0 || pagerScrollState == 0) {
                     //set stroke default
                     paint.setColor(currentColor);
-                    pStoke.setStrokeWidth(Math.round(strokeWidth));
+                    pStoke.setStrokeWidth(Math.round(strokeWidthNow));
                     pStoke.setAlpha(255);
                 } else if (offsetPixel < 0) {
                     pStoke.setStrokeWidth(Math.round(strokeWidth * offset));
@@ -278,10 +310,13 @@ public class StepIndicator extends View {
                     paint.setColor(getColorToBG(offset));
                 } else {
                     //set stroke transition
-                    paint.setColor(getColorToProgess(offset));
+                    paint.setColor(getColorToProgress(offset));
                     pStoke.setStrokeWidth(strokeWidth - Math.round(strokeWidth * offset));
                     pStoke.setAlpha(255 - Math.round(offset * 255f));
                 }
+                cY = centerY;
+                cR = radius;
+                pointX2 = pointX;
                 canvas.drawCircle(pointX, centerY, radius, paint);
                 canvas.drawCircle(pointX, centerY, radius, pStoke);
                 pText.setColor(textColor);
@@ -301,7 +336,27 @@ public class StepIndicator extends View {
             drawTextCentred(canvas, pText, String.valueOf(i + 1), pointX, centerY);
             pointX = pointX + stepDistance;
         }
+        //        redraw current position again to make it be on top order
+        if (offsetPixel == 0 || pagerScrollState == 0) {
+            //set stroke default
+            paint.setColor(currentColor);
+            pStoke.setStrokeWidth(Math.round(strokeWidthNow));
+            pStoke.setAlpha(255);
+        } else if (offsetPixel < 0) {
+            pStoke.setStrokeWidth(Math.round(strokeWidth * offset));
+            pStoke.setAlpha(Math.round(offset * 255f));
+            paint.setColor(getColorToBG(offset));
+        } else {
+            //set stroke transition
+            paint.setColor(getColorToProgress(offset));
+            pStoke.setStrokeWidth(strokeWidth - Math.round(strokeWidth * offset));
+            pStoke.setAlpha(255 - Math.round(offset * 255f));
+        }
 
+        canvas.drawCircle(pointX2, cY, cR, paint);
+        canvas.drawCircle(pointX2, cY, cR, pStoke);
+        pText.setColor(textColor);
+        drawTextCentred(canvas, pText, String.valueOf(currentStepPosition + 1), pointX2, cY);
     }
 
     private void drawTextCentred(Canvas canvas, Paint paint, String text, float cx, float cy) {
@@ -318,7 +373,7 @@ public class StepIndicator extends View {
         return Color.HSVToColor(hsv);
     }
 
-    private int getColorToProgess(float offset) {
+    private int getColorToProgress(float offset) {
         offset = Math.abs(offset);
         float[] hsv = new float[3];
         hsv[0] = hsvCurrent[0] + (hsvProgress[0] - hsvCurrent[0]) * offset;
@@ -332,7 +387,7 @@ public class StepIndicator extends View {
         offsetPixel = Math.round(stepDistance * offset);
         if (currentStepPosition > position) {
             offsetPixel = offsetPixel - stepDistance;
-        }else {
+        } else {
             currentStepPosition = position;
         }
 
@@ -345,6 +400,8 @@ public class StepIndicator extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (!clickable)
+            return super.onTouchEvent(event);
         int pointX = startX;
         int xTouch;
         int yTouch;
@@ -388,21 +445,25 @@ public class StepIndicator extends View {
         invalidate();
     }
 
-    public static class ViewPagerOnChangeListener implements ViewPager.OnPageChangeListener {
+    public class ViewPagerOnChangeListener implements ViewPager.OnPageChangeListener {
         private final StepIndicator stepIndicator;
 
-        public ViewPagerOnChangeListener(StepIndicator stepIndicator) {
+        ViewPagerOnChangeListener(StepIndicator stepIndicator) {
             this.stepIndicator = stepIndicator;
         }
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            stepIndicator.setOffset(positionOffset, position);
+            if (!disablePageChange) {
+                stepIndicator.setOffset(positionOffset, position);
+            }
         }
 
         @Override
         public void onPageSelected(int position) {
-            stepIndicator.setCurrentStepPosition(position);
+            if (!disablePageChange) {
+                stepIndicator.setCurrentStepPosition(position);
+            }
         }
 
         @Override
@@ -412,15 +473,17 @@ public class StepIndicator extends View {
 
     }
 
-    public static class ViewPagerOnSelectedListener implements OnClickListener {
+    public class ViewPagerOnSelectedListener implements OnClickListener {
         private final ViewPager mViewPager;
 
-        public ViewPagerOnSelectedListener(ViewPager viewPager) {
+        ViewPagerOnSelectedListener(ViewPager viewPager) {
             mViewPager = viewPager;
         }
 
         @Override
         public void onClick(int position) {
+            disablePageChange = true;
+            setCurrentStepPosition(position);
             mViewPager.setCurrentItem(position);
         }
     }
@@ -474,7 +537,7 @@ public class StepIndicator extends View {
         int textColor;
         int secondaryTextColor;
 
-        public SavedState(Parcelable superState) {
+        SavedState(Parcelable superState) {
             super(superState);
         }
 

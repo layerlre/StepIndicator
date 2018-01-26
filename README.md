@@ -1,15 +1,16 @@
-[![Build Status](https://api.travis-ci.org/layerlre/StepIndicator.svg?branch=master)](https://api.travis-ci.org/layerlre/StepIndicator) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.layer-net/step-indicator/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.layer-net/step-indicator) [![Methods Count](https://img.shields.io/badge/Methods and size-110 | 24 KB-e91e63.svg)](http://www.methodscount.com/?lib=com.layer-net%3Astep-indicator%3A1.0.0) 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-StepIndicator-green.svg?style=true)](https://android-arsenal.com/details/1/5013) [![Build Status](https://api.travis-ci.org/layerlre/StepIndicator.svg?branch=master)](https://api.travis-ci.org/layerlre/StepIndicator)
 # Android StepIndicator
 
 Interactive step paging indicator widget, compatible with the ViewPager
 
 ![StepIndicator](https://github.com/layerlre/StepIndicator/raw/master/images/port4.gif)![StepIndicator](https://github.com/layerlre/StepIndicator/raw/master/images/port6.gif)
+![StepIndicator](https://github.com/layerlre/StepIndicator/raw/master/images/custom_step.png)
 ![StepIndicator](https://github.com/layerlre/StepIndicator/raw/master/images/land6.gif)
 # Usage
   1. Include one of the widgets in your view. This should usually be placed
      adjacent to the `ViewPager` it represents.
 
-        <com.layer_net.stepindicator.StepIndicator
+          <com.layer_net.stepindicator.StepIndicator
             android:id="@+id/step_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,6 +39,7 @@ Interactive step paging indicator widget, compatible with the ViewPager
     void setRadius(int radius)
     int getRadius()
     void setupWithViewPager(ViewPager viewPager)
+    void setClickable(boolean clickable)
 ```
 
 # Customization
@@ -56,13 +58,13 @@ Download via Maven
         <dependency>
             <groupId>com.layer-net</groupId>
             <artifactId>step-indicator</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
             <type>pom</type>
         </dependency>
 
 or Gradle:
 
-    compile 'com.layer-net:step-indicator:1.0.0'
+    compile 'com.layer-net:step-indicator:1.1.0'
 
 
 # License
