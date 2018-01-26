@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 6 total pages.
-            return 6;
+            return 36;
         }
 
         @Override

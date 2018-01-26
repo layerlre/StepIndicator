@@ -80,6 +80,7 @@ public class StepIndicator extends View {
     private boolean withViewpager;
     private ViewPagerOnChangeListener viewPagerChangeListener;
     private boolean disablePageChange;
+    private int strokeWidthNow;
 
     public StepIndicator(Context context) {
         super(context);
@@ -146,6 +147,7 @@ public class StepIndicator extends View {
         try {
             radius = (int) attr.getDimension(R.styleable.StepIndicator_siRadius, dp2px(DEFAULT_STEP_RADIUS));
             strokeWidth = (int) attr.getDimension(R.styleable.StepIndicator_siStrokeWidth, dp2px(DEFAULT_STOKE_WIDTH));
+            strokeWidthNow = strokeWidth;
             stepsCount = attr.getInt(R.styleable.StepIndicator_siStepCount, DEFAULT_STEP_COUNT);
             stepColor = attr.getColor(R.styleable.StepIndicator_siStepColor, ContextCompat.getColor(context, DEFAULT_STEP_COLOR));
             currentColor = attr.getColor(R.styleable.StepIndicator_siCurrentStepColor, ContextCompat.getColor(context, DEFAULT_CURRENT_STEP_COLOR));
@@ -279,6 +281,9 @@ public class StepIndicator extends View {
 
         /**draw Circle */
         pointX = startX;
+        int cY = 0;
+        int cR = 0;
+        int pointX2 = 0;
         for (int i = 0; i < stepsCount; i++) {
             if (i < currentStepPosition) {
                 //draw previous step
@@ -297,7 +302,7 @@ public class StepIndicator extends View {
                 if (offsetPixel == 0 || pagerScrollState == 0) {
                     //set stroke default
                     paint.setColor(currentColor);
-                    pStoke.setStrokeWidth(Math.round(strokeWidth));
+                    pStoke.setStrokeWidth(Math.round(strokeWidthNow));
                     pStoke.setAlpha(255);
                 } else if (offsetPixel < 0) {
                     pStoke.setStrokeWidth(Math.round(strokeWidth * offset));
@@ -309,6 +314,9 @@ public class StepIndicator extends View {
                     pStoke.setStrokeWidth(strokeWidth - Math.round(strokeWidth * offset));
                     pStoke.setAlpha(255 - Math.round(offset * 255f));
                 }
+                cY = centerY;
+                cR = radius;
+                pointX2 = pointX;
                 canvas.drawCircle(pointX, centerY, radius, paint);
                 canvas.drawCircle(pointX, centerY, radius, pStoke);
                 pText.setColor(textColor);
@@ -328,7 +336,27 @@ public class StepIndicator extends View {
             drawTextCentred(canvas, pText, String.valueOf(i + 1), pointX, centerY);
             pointX = pointX + stepDistance;
         }
+        //        redraw current position again to make it be on top order
+        if (offsetPixel == 0 || pagerScrollState == 0) {
+            //set stroke default
+            paint.setColor(currentColor);
+            pStoke.setStrokeWidth(Math.round(strokeWidthNow));
+            pStoke.setAlpha(255);
+        } else if (offsetPixel < 0) {
+            pStoke.setStrokeWidth(Math.round(strokeWidth * offset));
+            pStoke.setAlpha(Math.round(offset * 255f));
+            paint.setColor(getColorToBG(offset));
+        } else {
+            //set stroke transition
+            paint.setColor(getColorToProgress(offset));
+            pStoke.setStrokeWidth(strokeWidth - Math.round(strokeWidth * offset));
+            pStoke.setAlpha(255 - Math.round(offset * 255f));
+        }
 
+        canvas.drawCircle(pointX2, cY, cR, paint);
+        canvas.drawCircle(pointX2, cY, cR, pStoke);
+        pText.setColor(textColor);
+        drawTextCentred(canvas, pText, String.valueOf(currentStepPosition + 1), pointX2, cY);
     }
 
     private void drawTextCentred(Canvas canvas, Paint paint, String text, float cx, float cy) {
