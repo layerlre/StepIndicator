@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <color name="background_default">#A5D6A7</color>
-    <color name="step_default">#4CAF50</color>
-    <color name="current_step_default">#ffffff</color>
-    <color name="text_default">#000000</color>
-    <color name="secondary_text_default">#ffffff</color>
+   <declare-styleable name="StepIndicator">
+        <attr name="siStepCount" format="integer" />
+        <attr name="siRadius" format="dimension" />
+        <attr name="siStrokeWidth" format="dimension" />
+        <attr name="siStepColor" format="color" />
+        <attr name="siCurrentStepColor" format="color" />
+        <attr name="siBackgroundColor" format="color" />
+        <attr name="siTextColor" format="color" />
+        <attr name="siSecondaryTextColor" format="color" />
+       <attr name="siLineHeight" format="dimension" />
+    </declare-styleable>
 
 </resources>
