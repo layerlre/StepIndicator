@@ -48,8 +48,10 @@ public class StepIndicator extends View {
     private static final int DEFAULT_CURRENT_STEP_COLOR = R.color.current_step_default;
     private static final int DEFAULT_TEXT_COLOR = R.color.text_default;
     private static final int DEFAULT_SECONDARY_TEXT_COLOR = R.color.secondary_text_default;
+    private static final float DEFAULT_LINE_HEIGHT =6.0f;
 
     private int radius;
+    private float mLineHeight;
     private int strokeWidth;
     private int currentStepPosition;
     private int stepsCount = 1;
@@ -120,7 +122,7 @@ public class StepIndicator extends View {
         pText = new Paint();
         paint.setColor(stepColor);
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        paint.setStrokeWidth(radius * 80 / 100);
+        paint.setStrokeWidth(mLineHeight);
         pStoke.setColor(stepColor);
         pStoke.setStrokeWidth(strokeWidth);
         pStoke.setStyle(Paint.Style.STROKE);
@@ -147,6 +149,7 @@ public class StepIndicator extends View {
             radius = (int) attr.getDimension(R.styleable.StepIndicator_siRadius, dp2px(DEFAULT_STEP_RADIUS));
             strokeWidth = (int) attr.getDimension(R.styleable.StepIndicator_siStrokeWidth, dp2px(DEFAULT_STOKE_WIDTH));
             stepsCount = attr.getInt(R.styleable.StepIndicator_siStepCount, DEFAULT_STEP_COUNT);
+            mLineHeight = attr.getDimension(R.styleable.StepIndicator_siLineHeight, DEFAULT_LINE_HEIGHT);
             stepColor = attr.getColor(R.styleable.StepIndicator_siStepColor, ContextCompat.getColor(context, DEFAULT_STEP_COLOR));
             currentColor = attr.getColor(R.styleable.StepIndicator_siCurrentStepColor, ContextCompat.getColor(context, DEFAULT_CURRENT_STEP_COLOR));
             backgroundColor = attr.getColor(R.styleable.StepIndicator_siBackgroundColor, ContextCompat.getColor(context, DEFAULT_BACKGROUND_COLOR));
@@ -291,6 +294,7 @@ public class StepIndicator extends View {
                     pStoke.setStrokeWidth(strokeWidth - Math.round(strokeWidth * offset));
                     canvas.drawCircle(pointX, centerY, radius, pStoke);
                 }
+
                 pText.setColor(secondaryTextColor);
             } else if (i == currentStepPosition) {
                 //draw current step
@@ -420,7 +424,7 @@ public class StepIndicator extends View {
     public class ViewPagerOnChangeListener implements ViewPager.OnPageChangeListener {
         private final StepIndicator stepIndicator;
 
-        ViewPagerOnChangeListener(StepIndicator stepIndicator) {
+        public ViewPagerOnChangeListener(StepIndicator stepIndicator) {
             this.stepIndicator = stepIndicator;
         }
 
@@ -448,7 +452,7 @@ public class StepIndicator extends View {
     public class ViewPagerOnSelectedListener implements OnClickListener {
         private final ViewPager mViewPager;
 
-        ViewPagerOnSelectedListener(ViewPager viewPager) {
+        public ViewPagerOnSelectedListener(ViewPager viewPager) {
             mViewPager = viewPager;
         }
 
@@ -465,6 +469,7 @@ public class StepIndicator extends View {
     protected Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
         SavedState ss = new SavedState(superState);
+        ss.mLineHeight = this.mLineHeight;
         ss.radius = this.radius;
         ss.strokeWidth = this.strokeWidth;
         ss.currentStepPosition = this.currentStepPosition;
@@ -486,7 +491,7 @@ public class StepIndicator extends View {
 
         SavedState ss = (SavedState) state;
         super.onRestoreInstanceState(ss.getSuperState());
-
+        this.mLineHeight =ss.mLineHeight;
         this.radius = ss.radius;
         this.strokeWidth = ss.strokeWidth;
         this.currentStepPosition = ss.currentStepPosition;
@@ -500,6 +505,7 @@ public class StepIndicator extends View {
 
     static class SavedState extends BaseSavedState {
         int radius;
+        float mLineHeight;
         int strokeWidth;
         int currentStepPosition;
         int stepsCount;
@@ -509,12 +515,13 @@ public class StepIndicator extends View {
         int textColor;
         int secondaryTextColor;
 
-        SavedState(Parcelable superState) {
+        public SavedState(Parcelable superState) {
             super(superState);
         }
 
         private SavedState(Parcel in) {
             super(in);
+            mLineHeight = in.readFloat();
             radius = in.readInt();
             strokeWidth = in.readInt();
             currentStepPosition = in.readInt();
@@ -529,6 +536,7 @@ public class StepIndicator extends View {
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
+            dest.writeFloat(mLineHeight);
             dest.writeInt(radius);
             dest.writeInt(strokeWidth);
             dest.writeInt(currentStepPosition);
